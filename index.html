@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSIS BINA INSAN MANDIRI</title>
+    <style>
+        /* --- GAYA DASAR (CSS) --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Navbar Biru Atas */
+        header {
+            background-color: #64B5F6; /* Biru langit sesuai desain */
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        nav button {
+            background: none;
+            border: none;
+            font-size: 16px;
+            font-weight: bold;
+            margin-left: 20px;
+            cursor: pointer;
+            color: #333;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+
+        nav button:hover, nav button.active {
+            background-color: transparent;
+            border: 2px solid black; /* Lingkaran hitam saat aktif */
+        }
+
+        /* Konten Utama */
+        main {
+            padding: 40px;
+            min-height: 80vh;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Section (Halaman) */
+        .halaman {
+            display: none; /* Sembunyikan semua dulu */
+            animation: fadeIn 0.5s;
+        }
+
+        .halaman.tampil {
+            display: flex; /* Munculkan yang aktif */
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Layout Kiri Teks - Kanan Gambar */
+        .konten-kiri {
+            flex: 1;
+            padding-right: 40px;
+            min-width: 300px;
+        }
+        
+        .konten-kanan {
+            flex: 1;
+            text-align: center;
+            min-width: 300px;
+        }
+
+        .mascot-img {
+            width: 100%;
+            max-width: 400px;
+            filter: drop-shadow(5px 5px 10px rgba(0,0,0,0.2));
+        }
+
+        /* Khusus Halaman Lomba (Grid) */
+        #halaman-lomba {
+            display: none; /* Khusus ini defaultnya block bukan flex */
+            text-align: center;
+        }
+        
+        #halaman-lomba.tampil {
+            display: block;
+        }
+
+        .judul-besar {
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .grid-lomba {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .item-lomba {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .item-lomba:hover {
+            transform: scale(1.1);
+        }
+
+        .lingkaran {
+            width: 120px;
+            height: 120px;
+            background-color: #81D4FA; /* Biru muda */
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .label-lomba {
+            background-color: #E0E0E0;
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        /* Halaman DETAIL Lomba (Animasi Masuk) */
+        #halaman-detail {
+            position: relative;
+        }
+
+        .detail-header {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        /* Ini simulasi animasi 'pindah ke pojok kiri' */
+        .lingkaran-kecil {
+            width: 150px;
+            height: 150px;
+            background-color: #81D4FA;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            /* Animasi geser */
+            animation: slideFromCenter 0.6s ease-out;
+        }
+
+        @keyframes slideFromCenter {
+            from { 
+                transform: translate(50vw, 50vh) scale(0.5); 
+                opacity: 0;
+            }
+            to { 
+                transform: translate(0, 0) scale(1); 
+                opacity: 1;
+            }
+        }
+
+        /* Footer */
+        footer {
+            background-color: #D86B4F; /* Warna Coklat/Merah Bata sesuai desain */
+            color: black;
+            text-align: center;
+            padding: 10px;
+            font-size: 14px;
+            margin-top: 50px;
+        }
+        
+        /* Tombol kembali */
+        .btn-back {
+            background: none;
+            border: 1px solid #333;
+            padding: 5px 10px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-area">
+            <img src="https://via.placeholder.com/40" alt="Logo" class="logo-img"> <span>OSIS</span>
+        </div>
+        <nav>
+            <button onclick="bukaHalaman('about')" id="btn-about" class="active">About Us</button>
+            <button onclick="bukaHalaman('mascot')" id="btn-mascot">Our Mascot</button>
+            <button onclick="bukaHalaman('lomba')" id="btn-lomba">Lomba</button>
+        </nav>
+        <div style="font-size: 24px;">☰</div>
+    </header>
+
+    <main>
+        <section id="about" class="halaman tampil">
+            <div class="konten-kiri">
+                <h2>About Us</h2>
+                <p><strong>Latar Belakang</strong><br>
+                Selamat datang di website OSIS Bina Insan Mandiri. Ini adalah tempat di mana kreativitas dan kepemimpinan bersatu. Kami berkomitmen untuk memajukan sekolah...</p>
+                <br>
+                <p><strong>Tujuan</strong><br>
+                Menciptakan lingkungan sekolah yang asik, berprestasi, dan penuh inovasi.</p>
+            </div>
+            <div class="konten-kanan">
+                <h3>*hanya ilustrasi maskot</h3>
+                <img src="https://via.placeholder.com/300x300/FF5733/FFFFFF?text=Mascot+1" class="mascot-img" alt="Maskot">
+            </div>
+        </section>
+
+        <section id="mascot" class="halaman">
+            <div class="konten-kiri">
+                <h2>Hello 10!</h2>
+                <p>Perkenalkan maskot baru kami yang futuristik. Dia melambangkan kecepatan dan ketepatan teknologi.</p>
+                <br>
+                <h3>New Friend</h3>
+                <p>Maskot ini akan menemani setiap kegiatan OSIS kedepannya.</p>
+            </div>
+            <div class="konten-kanan">
+                <img src="https://via.placeholder.com/300x300/33C1FF/FFFFFF?text=Mascot+Blue" class="mascot-img" alt="Maskot Biru">
+            </div>
+        </section>
+
+        <section id="lomba" class="halaman">
+            <div style="width: 100%;">
+                <h1 class="judul-besar">COMPETITION</h1>
+                
+                <div class="grid-lomba">
+                    <div class="item-lomba" onclick="bukaDetail('Cerpen')">
+                        <div class="lingkaran"></div>
+                        <div class="label-lomba">Cerpen</div>
+                    </div>
+                    <div class="item-lomba" onclick="bukaDetail('MHQ')">
+                        <div class="lingkaran"></div>
+                        <div class="label-lomba">MHQ</div>
+                    </div>
+                    <div class="item-lomba" onclick="bukaDetail('MTQ')">
+                        <div class="lingkaran"></div>
+                        <div class="label-lomba">MTQ</div>
+                    </div>
+                    <div class="item-lomba" onclick="bukaDetail('Puisi')">
+                        <div class="lingkaran"></div>
+                        <div class="label-lomba">Puisi</div>
+                    </div>
+                    <div class="item-lomba" onclick="bukaDetail('LCT')">
+                        <div class="lingkaran"></div>
+                        <div class="label-lomba">LCT</div>
+                    </div>
+                     <div class="item-lomba" onclick="bukaDetail('Infografis')">
+                        <div class="lingkaran"></div>
+                        <div class="label-lomba">Infografis</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="detail" class="halaman">
+            <div style="width: 100%;">
+                <button class="btn-back" onclick="bukaHalaman('lomba')">← Kembali</button>
+                
+                <div style="display: flex; flex-wrap: wrap; align-items: flex-start;">
+                    <div class="detail-header" style="margin-right: 40px;">
+                        <div class="lingkaran-kecil"></div> <div class="label-lomba" id="judul-detail" style="margin-top: 10px; font-size: 1.2em;">Nama Lomba</div>
+                    </div>
+
+                    <div style="flex: 2; padding-top: 20px;">
+                        <h2>Penjelasan Teknis, Ketentuan, dll</h2>
+                        <p>Di sini adalah penjelasan lengkap mengenai lomba <span id="teks-lomba"></span>. Peserta wajib mengikuti aturan main yang berlaku.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    </div>
+
+                    <div style="flex: 1; text-align: center;">
+                         <img src="https://via.placeholder.com/200x300/33C1FF/FFFFFF?text=Mascot" class="mascot-img" alt="Maskot">
+                         <p><small>*hanya ilustrasi</small></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        OSIS BINA INSAN MANDIRI @2026
+    </footer>
+
+    <script>
+        // Fungsi untuk ganti halaman utama
+        function bukaHalaman(idHalaman) {
+            // 1. Sembunyikan semua halaman
+            const semuaHalaman = document.querySelectorAll('.halaman');
+            semuaHalaman.forEach(halaman => {
+                halaman.classList.remove('tampil');
+            });
+
+            // 2. Munculkan halaman yang dipilih
+            document.getElementById(idHalaman).classList.add('tampil');
+
+            // 3. Update tombol menu jadi aktif (ada kotaknya)
+            document.querySelectorAll('nav button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Cek biar tombol nav sesuai
+            if(idHalaman !== 'detail') {
+                const btnId = 'btn-' + idHalaman;
+                const btn = document.getElementById(btnId);
+                if(btn) btn.classList.add('active');
+            } else {
+                document.getElementById('btn-lomba').classList.add('active');
+            }
+        }
+
+        // Fungsi khusus saat klik icon lomba (Pindah ke Detail)
+        function bukaDetail(namaLomba) {
+            // Ubah teks judul sesuai lomba yang diklik
+            document.getElementById('judul-detail').innerText = namaLomba;
+            document.getElementById('teks-lomba').innerText = namaLomba;
+
+            // Buka halaman detail
+            bukaHalaman('detail');
+        }
+    </script>
+</body>
+</html>
